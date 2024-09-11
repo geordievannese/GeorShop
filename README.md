@@ -16,7 +16,7 @@ You can access the application [here](link_to_pws_app)(PWS Is Down Can't Push).
 4. Created a `Product` model with the mandatory attributes.✅
 5. Created a view to display the application name, developer's name, and class.✅
 6. Designed an HTML template to render the information.✅
-7. Deployed the project to PWS for public access.✅
+7. Deployed the project to PWS for public access. (PWS Is Down Can't Push)
 
 1. Explain How You Implemented the Checklist Step-by-Step (Not Just Following the Tutorial)
 Step 1:
