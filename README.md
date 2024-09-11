@@ -7,7 +7,7 @@ Class: PBP KKI
 # E-Commerce Django Project
 
 ## Deployed Application
-You can access the application [here](link_to_pws_app).
+You can access the application [here](link_to_pws_app)(PWS Is Down Can't Push).
 
 ## Steps Followed
 1. Created a new Django project using `django-admin startproject`. ✅
