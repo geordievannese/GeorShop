@@ -91,5 +91,5 @@ Template (HTML file): The view passes the data to the template, which is an HTML
    - Tested all endpoints using Postman to ensure correct functionality.
 
 6.Postman Results:
-![](image/xml.png)
-![](image/json.png)
+![alt text](georshop/xml.png)
+![alt text](georshop/json.png)
