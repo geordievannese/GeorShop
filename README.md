@@ -61,4 +61,35 @@ Template (HTML file): The view passes the data to the template, which is an HTML
 -The Django ORM takes care of translating Python code into SQL queries behind the scenes. For example, when you define a model class like Product, Django automatically generates SQL queries to create tables in the database, insert data, and retrieve records.
 -By using an ORM, developers can focus on writing Python code rather than learning SQL, making it easier to manage database interactions. It also makes the application more portable, as the ORM can adapt to different database backends without requiring changes to the code.
 
+# GeorShop - Assignment 3
 
+### Added URLs:
+- `/products/json/`: Returns a list of all products in JSON format.
+- `/products/json/<uuid:pk>/`: Returns details of a specific product by its ID in JSON format.
+- `/products/xml/`: Returns a list of all products in XML format.
+- `/products/xml/<uuid:pk>/`: Returns details of a specific product by its ID in XML format.
+
+
+## Assignment Questions
+
+1. Why do we need data delivery in implementing a platform?
+   Data delivery is essential for sharing data between different systems, services, or applications. It enables platforms to provide data to other systems in a structured and accessible format, such as JSON or XML, which can then be consumed by clients or integrated with other platforms.
+
+2. Which is better, XML or JSON? Why is JSON more popular than XML?
+   JSON is generally better for web applications due to its simplicity, ease of use, and smaller file size. JSON is more popular than XML because it is easier to parse, more readable, and works more efficiently with JavaScript, which is widely used in modern web development.
+
+3. Explain the functional usage of `is_valid()` method in Django forms.
+   The `is_valid()` method is used to validate form data. It checks whether all required fields are filled in correctly and if the input matches the expected format. If validation passes, the form is considered valid, and the data can be saved or processed.
+
+4. Why do we need `csrf_token` when creating a form in Django?
+   The `csrf_token` is needed to protect forms from Cross-Site Request Forgery (CSRF) attacks. Without the token, an attacker could trick users into submitting malicious forms. By verifying the `csrf_token`, Django ensures that the form submission originated from the trusted site.
+
+5. Step-by-step Implementation of Checklist:
+   - Created a `ProductForm` using Django's ModelForm to allow adding new products.
+   - Added views for displaying products in JSON and XML formats, both as a list and by individual ID.
+   - Updated `urls.py` to route to the newly created views.
+   - Tested all endpoints using Postman to ensure correct functionality.
+
+6.Postman Results:
+![](image/xml.png)
+![](image/json.png)

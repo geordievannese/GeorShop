@@ -3,11 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ app_name }}</title>
+    <title>{{ name }}'s GeorShop</title>
+    <!-- Bootstrap for better styling -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Welcome to {{ app_name }}</h1>
-    <p>Developed by {{ your_name }} 
-    <p>{{ class_name }}</p>
+<body class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h1 class="text-center">Welcome to GeorShop</h1>
+            <p class="text-center">Developed by {{ name }}</p>
+            <p class="text-center">{{ class }}</p>
+
+            <h2>Add a Product</h2>
+            <form method="POST" class="form">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ form.as_p }}
+                </div>
+                <button type="submit" class="btn btn-primary">Add Product</button>
+            </form>
+
+            <h2 class="mt-5">Product List</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product_entry in product_entries %}
+                    <tr>
+                        <td>{{ product_entry.name }}</td>
+                        <td>{{ product_entry.price }}</td>
+                        <td>{{ product_entry.description }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3" class="text-center">No products added yet.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </body>
 </html>
