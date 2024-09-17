@@ -7,7 +7,7 @@ Class: PBP KKI
 # E-Commerce Django Project
 
 ## Deployed Application
-You can access the application [http://geordie-vannese-mentalhealthtracker.pbp.cs.ui.ac.id].
+You can access the application [http://geordie-vannese-georshop.pbp.cs.ui.ac.id].
 
 ## Steps Followed
 1. Created a new Django project using `django-admin startproject`. ✅
