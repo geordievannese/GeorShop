@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>Login</title>
+{% endblock meta %}
+
+{% block content %}
+<div class="login" style="
+    background-color: rgba(255, 255, 255, 0.9); 
+    padding: 2rem; 
+    max-width: 400px; 
+    margin: 3rem auto; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+    text-align: center;
+    backdrop-filter: blur(10px);">
+  
+  <h1 style="font-size: 2rem; color: #333; margin-bottom: 1.5rem; font-family: 'Poppins', sans-serif;">
+    Login
+  </h1>
+
+  <form method="POST" action="" style="display: flex; flex-direction: column; gap: 1rem;">
+    {% csrf_token %}
+    
+    <div style="margin-bottom: 1rem; font-family: 'Roboto', sans-serif;">
+      {{ form.as_p }}
+    </div>
+    
+    <input class="btn login_btn" type="submit" value="Login" 
+           style="background-color: #007bff; color: #fff; padding: 0.75rem; font-size: 1rem; 
+                  border: none; border-radius: 4px; cursor: pointer; width: 100%; 
+                  transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+                  font-family: 'Poppins', sans-serif;">
+    
+    <p style="margin-top: 1rem; font-family: 'Roboto', sans-serif; font-size: 1rem;">
+      Don't have an account yet? 
+      <a href="{% url 'main:register' %}" style="color: #007bff; font-family: 'Poppins', sans-serif;">Register Now</a>
+    </p>
+  </form>
+
+  {% if messages %}
+  <ul style="list-style: none; padding: 0; margin-top: 1rem; font-family: 'Roboto', sans-serif;">
+    {% for message in messages %}
+    <li style="color: red;">{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+</div>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@400;500&display=swap');
+    
+    body {
+        background: linear-gradient(to bottom right, #007bff, #6a0dad);
+        font-family: 'Roboto', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    
+    .login_btn:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        background-color: #0056b3; 
+    }
+
+    
+    .login_btn {
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    }
+
+    label {
+        font-family: 'Roboto', sans-serif;
+        font-size: 1rem;
+    }
+</style>
+
+{% endblock content %}

@@ -21,6 +21,9 @@
                     {{ form.as_p }}
                 </div>
                 <button type="submit" class="btn btn-primary">Add Product</button>
+                <a href="{% url 'main:logout' %}">
+                    <button>Logout</button>
+                  </a>
             </form>
 
             <h2 class="mt-5">Product List</h2>

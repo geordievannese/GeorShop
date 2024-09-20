@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>Register</title>
+{% endblock meta %}
+
+{% block content %}
+<div class="register" style="
+    background-color: rgba(255, 255, 255, 0.9); 
+    padding: 2rem; 
+    max-width: 400px; 
+    margin: 3rem auto; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+    text-align: center;
+    backdrop-filter: blur(10px);">
+  
+  <h1 style="font-size: 2rem; color: #333; margin-bottom: 1.5rem; font-family: 'Poppins', sans-serif;">
+    Register
+  </h1>
+
+  <form method="POST" style="display: flex; flex-direction: column; gap: 1rem;">
+    {% csrf_token %}
+    
+    <div style="text-align: left; margin-bottom: 1rem; font-family: 'Roboto', sans-serif;">
+      {{ form.as_p }}
+    </div>
+    
+    <input class="btn register_btn" type="submit" name="submit" value="Register" 
+           style="background-color: #28a745; color: #fff; padding: 0.75rem; font-size: 1rem; 
+                  border: none; border-radius: 4px; cursor: pointer; width: 100%; 
+                  transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+                  font-family: 'Poppins', sans-serif;">
+  </form>
+
+  {% if messages %}
+  <ul style="list-style: none; padding: 0; margin-top: 1rem; font-family: 'Roboto', sans-serif; text-align: left;">
+    {% for message in messages %}
+    <li style="color: red;">{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+</div>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@400;500&display=swap');
+
+    body {
+        background: linear-gradient(to bottom right, #007bff, #6a0dad);
+        font-family: 'Roboto', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Adjust label and input alignment */
+    label {
+        font-family: 'Roboto', sans-serif;
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+        display: block;
+        text-align: left;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"] {
+        width: 100%;
+        padding: 0.75rem;
+        font-size: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+        transition: border-color 0.3s;
+        margin-bottom: 1rem;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    input[type="email"]:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+
+    /* Register button hover effect */
+    .register_btn:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        background-color: #218838; /* Darker green shade for hover */
+    }
+
+    /* Button transition for smooth hover */
+    .register_btn {
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Initial shadow */
+    }
+
+    /* Message styling */
+    ul li {
+        color: red;
+        font-size: 0.9rem;
+    }
+</style>
+
+{% endblock content %}
