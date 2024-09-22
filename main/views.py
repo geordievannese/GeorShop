@@ -17,21 +17,25 @@ from django.urls import reverse
 def show_main(request):
     form = ProductForm(request.POST or None)
     
-    if request.method == "POST" and form.is_valid():
-        form.save()
-        return redirect('main:show_main')  # Redirect to prevent resubmission
+    if form.is_valid() and request.method == "POST" :
+        product_entry = form.save(commit=False)
+        product_entry.user = request.user
+        product_entry.save()
+        return redirect('main:show_main') 
 
-    product_entries = Product.objects.all()
+   
+    product_entries = Product.objects.filter(user=request.user)
 
     context = {
+        'name': request.user.username,
         'name': 'Geordie',
         'class': 'PBP KKI',
         'npm': '2306170414',
         'product_entries': product_entries,
         'form': form,
-        'last_login': request.COOKIES['last_login'],
+        'last_login': request.COOKIES.get('last_login', 'No last login found'),
     }
-    
+
     return render(request, "main.html", context)
 
 def product_list_json(request):
@@ -78,7 +82,7 @@ def login_user(request):
             login(request, user)
             response = HttpResponseRedirect(reverse("main:show_main"))
             response.set_cookie('last_login', str(datetime.datetime.now()))
-            return redirect('main:show_main')
+            return response
 
    else:
       form = AuthenticationForm(request)

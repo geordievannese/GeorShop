@@ -93,3 +93,48 @@ Template (HTML file): The view passes the data to the template, which is an HTML
 6.Postman Results:
 ![alt text](georshop/xml.png)
 ![alt text](georshop/json.png)
+
+
+# GeorShop - Assignment 4
+1) What is the difference between HttpResponseRedirect() and redirect()?
+-HttpResponseRedirect is a class that returns an HTTP status code 302 with a URL to redirect to.
+-redirect is a shortcut function that abstracts the logic and can take a model object, URL, or view name to redirect to.
+
+2)Explain how the MoodEntry model is linked with User!
+The MoodEntry model is linked to User through a ForeignKey, meaning each mood entry belongs to a specific user. The user_id field in the MoodEntry table stores the relationship.
+
+3)What is the difference between authentication and authorization, and what happens when a user logs in? Explain how Django implements these two concepts.
+Authentication is the process of verifying a user’s identity (login).
+Authorization is the process of determining whether a user has permission to access a specific resource.
+Django implements authentication through django.contrib.auth and remembers logged-in users using sessions.
+
+4)How does Django remember logged-in users? Explain other uses of cookies and whether all cookies are safe to use.
+Django uses session cookies to remember logged-in users. Each session is stored server-side, and the session ID is stored in the user's browser as a cookie.
+Cookies are small pieces of data stored on the client’s side and can be used for purposes like tracking users or remembering login states. Not all cookies are safe; sensitive information should be protected.
+
+5) Explain how did you implement the checklist step-by-step (apart from following the tutorial).
+
+1) Register:
+First, I implemented the user registration feature using Django's UserCreationForm. I created a register view where users can submit their details to create an account. Once the user registers successfully, they are redirected to the login page.
+The form was rendered in register.html, and CSRF protection was ensured by including {% csrf_token %} in the form.
+
+2) Login:
+I created a custom login_user view where users can log in using their credentials. The view uses Django's authenticate() function to verify the username and password. If the authentication is successful, the login() function is called to log the user in, and the user is redirected to the main page.
+After logging in, I set a last_login cookie that stores the timestamp of the last login using response.set_cookie().
+
+3) Logout:
+The logout functionality was implemented using Django's logout() function. This function logs out the current user and clears the session. After logging out, the user is redirected to the login page.
+
+4)Linking Models (Product and User):
+I modified the Product model to include a ForeignKey field that links each product to a specific User. This allows products to be owned by individual users, and each user can only see their own products when logged in.
+The user field was added to the Product model with on_delete=models.CASCADE to ensure that if a user is deleted, their products are deleted as well.
+After modifying the model, I created and applied the migrations using python manage.py makemigrations and python manage.py migrate.
+
+5) Displaying User Details and Products:
+In the main page view (show_main), I retrieved the logged-in user’s details, such as their username and the last_login cookie value. This data was passed to the template and displayed on the main page.
+Additionally, I filtered the products to display only those that belong to the currently logged-in user by using Product.objects.filter(user=request.user).
+The main page (main.html) was updated to display the username, last login time, and a list of the user's products.
+
+6) Setting Cookies:
+I used Django’s cookie system to store the last_login information. After a user logs in, the timestamp of their login is stored in the cookie using response.set_cookie('last_login', <value>). This cookie is then accessed on the main page to display the user's last login time.
+The cookie is set when the user logs in and is retrieved in the show_main view to display it in the template.
