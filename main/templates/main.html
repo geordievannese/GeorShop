@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,68 +8,239 @@
     <!-- Bootstrap for better styling -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Custom styles for the Last login session */
         .last-login {
-            position: absolute;
-            top: 10px;
-            left: 20px;
+            position: relative;
             font-size: 0.9rem;
-            color: #6c757d; /* Muted color */
+            color: white;
+            background-color: black; 
+            padding: 5px;
+            z-index: 1000;
+            display: inline-block; /* Ensure it's part of the navbar layout */
+            margin-left: 10px;
+        }
+
+        /* Add padding to prevent content from hiding behind the fixed navbar */
+        body {
+            padding-top: 100px; /* Adjust based on your navbar height */
+            background-color: #f0f4f8;
+        }
+
+        /* Form container styling */
+        .form-container {
+            background-color: #0d3b66; /* Dark navy color */
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 600px;
+            margin: 0 auto; /* Center the form box */
+            box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        h2 {
+            color: white;
+            text-align: center;
+        }
+
+        .form-group label {
+            color: white;
+        }
+
+        input[type="text"], input[type="number"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #ff4d4d; /* Red save button */
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #cc3b3b;
+            box-shadow: 0px 10px 15px rgba(255, 77, 77, 0.3);
+        }
+
+        /* Responsive adjustment */
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 20px;
+            }
+        }
+
+        /* Navbar styling */
+        .navbar-custom {
+            background-color: black; 
+            color: white;
+        }
+
+        .navbar-custom .nav-link, .navbar-custom .navbar-brand {
+            color: white;
+        }
+
+        .navbar-custom .nav-link:hover {
+            color: #9ca3af; 
+        }
+
+        /* Product card styling */
+        .card {
+            box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+
+        .card-text {
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .card-button {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn-sm {
+            font-size: 0.875rem;
         }
     </style>
 </head>
-<body class="container mt-5">
+<body>
 
-    <!-- Last login session info at the top-left corner -->
-    <div class="last-login">
-        Last login session: {{ last_login }}
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a class="navbar-brand" href="#">GeorShop</a>
+
+            <!-- Desktop Menu -->
+            <div class="desktop-menu d-flex align-items-center">
+                <a href="#" class="nav-link">Home</a>
+                <a href="#" class="nav-link">Products</a>
+                <a href="#" class="nav-link">Categories</a>
+                <a href="#" class="nav-link">Cart</a>
+                <span class="nav-link">Welcome, {{ user.username }}</span>
+                <a href="{% url 'main:logout' %}" class="nav-link text-danger">Logout</a>
+                
+                <!-- Last login message -->
+                <div id="last-login" class="last-login ml-3">
+                    {% if last_login %}
+                        Last login: {{ last_login }}
+                    {% else %}
+                        First login!
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Form container -->
+    <div class="form-container">
+        <h2>Add a Product</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_name">Name:</label>
+                <input type="text" id="id_name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="id_price">Price:</label>
+                <input type="number" id="id_price" name="price" required>
+            </div>
+
+            <div class="form-group">
+                <label for="id_description">Description:</label>
+                <textarea id="id_description" name="description" rows="4"></textarea>
+            </div>
+
+            <input type="submit" value="Add Product">
+        </form>
     </div>
 
-    <!-- Add Logout button at the top-right corner -->
-    <form method="POST" action="{% url 'main:logout' %}" class="position-absolute" style="top: 10px; right: 20px;">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-outline-danger btn-lg rounded-pill px-4">Logout</button>
-    </form>
+    <!-- Product Cards -->
+    <div class="container mt-5">
+        <h2 class="mt-5" style="color: black;">Product List</h2>
 
-    <div class="row">
-        <div class="col-md-8 offset-md-2">
-            <h1 class="text-center">Welcome to GeorShop</h1>
-            <p class="text-center">Developed by {{ name }}</p>
-            <p class="text-center">{{ class }}</p>
+        <div class="row">
+            {% for product_entry in product_entries %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product_entry.name }}</h5>
+                        <p class="card-text"><strong>Price:</strong> {{ product_entry.price }}</p>
+                        <p class="card-text"><strong>Description:</strong> {{ product_entry.description }}</p>
 
-            <h2>Add a Product</h2>
-            <form method="POST" class="form">
-                {% csrf_token %}
-                <div class="form-group">
-                    {{ form.as_p }}
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a href="{% url 'main:edit_product' product_entry.pk %}">
+                                    <button type="button" class="btn btn-sm btn-warning">Edit</button>
+                                </a>
+                                <a href="{% url 'main:delete_product' product_entry.pk %}" class="delete-link">
+                                    <button type="button" class="btn btn-sm btn-danger">Delete</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Add Product</button>
-            </form>
-
-            <h2 class="mt-5">Product List</h2>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for product_entry in product_entries %}
-                    <tr>
-                        <td>{{ product_entry.name }}</td>
-                        <td>{{ product_entry.price }}</td>
-                        <td>{{ product_entry.description }}</td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="3" class="text-center">No products added yet.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            </div>
+            {% empty %}
+            <div class="col-md-12 text-center">
+                <img src="{% static 'images/cat-no.gif' %}" alt="No Products" style="max-width: 200px;">
+                <p class="text-center">No products added yet.</p>
+            </div>
+            {% endfor %}
         </div>
     </div>
+
+    <script>
+        // Add confirmation dialog for delete action
+        const deleteLinks = document.querySelectorAll('.delete-link');
+        deleteLinks.forEach(function(link) {
+            link.addEventListener('click', function(event) {
+                // Prevent the default link click
+                event.preventDefault();
+                
+                // Show a confirmation dialog
+                const confirmed = confirm("Are you sure you want to delete this product?");
+                
+                // If confirmed, proceed to delete by navigating to the delete URL
+                if (confirmed) {
+                    window.location.href = this.href;
+                }
+            });
+        });
+
+        // Hide last login after 5 seconds
+        setTimeout(function() {
+            const lastLoginElement = document.getElementById('last-login');
+            if (lastLoginElement) {
+                lastLoginElement.style.display = 'none';
+            }
+        }, 10000); // 5 seconds
+    </script>
+
+    <!-- Bootstrap JS and dependencies (jQuery, Popper.js, Bootstrap JS) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>

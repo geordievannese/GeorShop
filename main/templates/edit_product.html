@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<style>
+    body {
+        font-family: 'Poppins', sans-serif; /* Modern font */
+        background: linear-gradient(135deg, #f5f7fa, #c3cfe2); /* Modern gradient background */
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        opacity: 0;
+        animation: fadeIn 0.8s ease-in-out forwards;
+    }
+
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .form-container {
+        background:rgb(4, 31, 68);
+        padding: 40px;
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        width: 100%;
+        max-width: 500px;
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .form-container:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+        font-size: 2rem;
+        text-align: center;
+        margin-bottom: 1.5rem;
+        color: white;
+    }
+
+    label {
+        font-size: 1.1rem;
+        color: white;
+        margin-bottom: 8px;
+        display: inline-block;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 20px;
+        font-size: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        box-sizing: border-box;
+        transition: border 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    textarea:focus {
+        border: 1px solid #007bff;
+        box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.5);
+        outline: none;
+    }
+
+    input[type="submit"] {
+        width: 100%;
+        padding: 12px;
+        background-color: red;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #0056b3;
+        box-shadow: 0px 10px 15px rgba(0, 123, 255, 0.2);
+    }
+
+    /* Button click transition */
+    .fade-out {
+        opacity: 0;
+        transform: translateY(-20px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+</style>
+
+<div class="container">
+    <div class="form-container">
+        <h1>Edit Product</h1>
+
+        <form method="POST" id="edit-product-form">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="id_name">Name:</label>
+                {{ form.name }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_price">Price:</label>
+                {{ form.price }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_description">Description:</label>
+                {{ form.description }}
+            </div>
+
+            <input type="submit" value="Save Changes"/>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById('edit-product-form').addEventListener('submit', function(event) {
+        event.preventDefault(); 
+
+        
+        document.querySelector('.container').classList.add('fade-out');
+
+        
+        setTimeout(() => {
+            this.submit(); 
+        }, 500); 
+    });
+</script>
+
+{% endblock %}

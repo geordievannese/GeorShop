@@ -138,3 +138,52 @@ The main page (main.html) was updated to display the username, last login time, 
 -Setting Cookies:
 I used Django’s cookie system to store the last_login information. After a user logs in, the timestamp of their login is stored in the cookie using response.set_cookie('last_login', <value>). This cookie is then accessed on the main page to display the user's last login time.
 The cookie is set when the user logs in and is retrieved in the show_main view to display it in the template.
+
+
+# Assignment 5: Web Design using CSS, Framework, and Other Features
+Questions
+
+# 1. CSS Selectors Priority Order
+
+The priority order of CSS selectors depends on specificity. The general order is as follows:
+Inline styles (e.g., style="color: red;") have the highest priority.
+IDs (e.g., #example) have higher specificity than classes (e.g., .example).
+Classes, attributes (e.g., [type="text"]), and pseudo-classes (e.g., :hover) have the next level of specificity.
+Element selectors (e.g., div, p) have the lowest specificity.
+If two selectors have the same specificity, the one defined later in the CSS file takes precedence.
+
+# 2. Importance of Responsive Design
+
+Responsive design ensures that a web application works well on a variety of devices, including mobile phones, tablets, and desktop computers. This is important because users expect to access applications from different devices, and a non-responsive design can lead to a poor user experience.
+
+Examples:
+Responsive Application: Twitter, where the interface adjusts well on both mobile and desktop.
+Non-Responsive Application: An older website that does not scale properly on mobile devices, leading to elements getting cut off or requiring horizontal scrolling.
+
+# 3. Differences between Margin, Border, and Padding
+Margin: The space outside an element's border, separating the element from other elements. It is transparent and used for spacing between elements.
+Border: The line surrounding the element’s content and padding. It can have different styles, thickness, and colors.
+Padding: The space between the content inside an element and the element’s border. It creates space within the element and makes it look less cramped.
+Implementation:
+
+margin: 10px;
+border: 2px solid black;
+padding: 15px;
+
+# 4. Flexbox and Grid Layout Concepts
+
+Flexbox: A layout model that allows items to align and distribute space within a container. It is most useful when you need to arrange elements in a row or column and need them to automatically resize to fit the available space.
+Example: display: flex; justify-content: center;
+Grid Layout: A layout system for creating complex designs with rows and columns. It allows for explicit control over where elements are placed in a grid and provides greater flexibility than flexbox for two-dimensional layouts.
+Example: display: grid; grid-template-columns: repeat(3, 1fr);
+
+# 5. Implementation Checklist Step-by-Step
+Delete and Edit Functionality:
+1) I added edit and delete buttons to each product card using Django's URL routing to link the buttons to appropriate views for editing and deleting products.
+2) CSS Customization:
+I used Bootstrap for styling and made custom adjustments with additional CSS for the login, register, and add product pages. I modified button styles, input fields, and form containers for a modern, clean look.
+3) Responsive Design for Product List:
+I used Bootstrap’s grid system to create a responsive product list that shows product details in cards. Each card is styled with shadows and rounded corners to make the design more appealing.
+If no products exist, a centered image with a message is shown, using a conditional {% empty %} block in Django templates.
+4) Responsive Navbar:
+I implemented a responsive navbar using Bootstrap’s navbar component. The navbar collapses into a hamburger menu on smaller screens and expands on larger screens, providing a user-friendly experience across all devices.
