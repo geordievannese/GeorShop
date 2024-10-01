@@ -1,2 +1,2 @@
 release: python3 manage.py migrate --noinput
-web: gunicorn georshopp.wsgi
+web: gunicorn georshop.wsgi
