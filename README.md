@@ -211,7 +211,7 @@ Rich Ecosystem: The JavaScript ecosystem includes numerous libraries and framewo
 -Consistency Across Different Clients: Different users may interact with your application using different browsers or devices. While the front-end validation may differ slightly based on the user’s environment, server-side validation ensures that the rules are uniformly applied to all users, maintaining data integrity and consistency.
 
 5. Step-by-Step Explanation of How the Checklist Was Implemented
-Here’s a step-by-step breakdown of how the checklist was implemented for adding a new mood entry:
+Here’s a step-by-step breakdown of how the checklist was implemented for adding a new product entry:
 
 1) Create the View Function for AJAX:
 Defined the add_product_entry_ajax function in views.py, which uses @csrf_exempt and @require_POST decorators to handle POST requests. The function processes the form data and saves a new mood entry to the database, responding with a JSON message.
