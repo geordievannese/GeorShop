@@ -187,3 +187,53 @@ I used Bootstrap’s grid system to create a responsive product list that shows 
 If no products exist, a centered image with a message is shown, using a conditional {% empty %} block in Django templates.
 4) Responsive Navbar:
 I implemented a responsive navbar using Bootstrap’s navbar component. The navbar collapses into a hamburger menu on smaller screens and expands on larger screens, providing a user-friendly experience across all devices.
+
+# Assignment 6
+1. Benefits of Using JavaScript in Developing Web Applications
+-Interactivity: JavaScript allows for creating highly interactive and dynamic user interfaces. It enables features like sliders, pop-ups, animations, and form validation, which improve user experience.
+-Client-Side Processing: JavaScript can handle processing directly on the client side (in the user's browser), which reduces server load and enhances the speed of user interactions, such as form validation before submission.
+-Asynchronous Operations: JavaScript supports asynchronous programming through features like Promises, async/await, and fetch(), which allows developers to handle API calls and other asynchronous tasks without blocking the user interface.
+-Cross-Platform Compatibility: JavaScript runs in almost all modern web browsers, making it a universal language for web development. With frameworks like React, Angular, or Vue, it can be used for complex single-page applications (SPAs).
+Rich Ecosystem: The JavaScript ecosystem includes numerous libraries and frameworks like jQuery, React, Vue, and Angular, which simplify development and provide solutions for a wide range of use cases.
+
+2. Why We Need to Use await When We Call fetch()
+-Reason for Using await: The fetch() function returns a Promise, which represents an ongoing process that will resolve (with data) or reject (with an error). Using await allows JavaScript to pause the execution of the function until the fetch() request is complete. This makes the code easier to read and write, and it ensures that the subsequent code only runs once the data is available.
+-What Happens If We Don't Use await: If await is not used, the function will not wait for the fetch() request to complete. Instead, it will continue executing the next lines of code immediately. This can lead to issues where you try to access data that hasn't been received yet, causing errors or unexpected behavior.
+
+3. Why Do We Need to Use the csrf_exempt Decorator on the View Used for AJAX POST?
+-Cross-Site Request Forgery (CSRF) Protection: Django has built-in CSRF protection to prevent malicious sites from making unauthorized requests to your server on behalf of authenticated users. This is essential for securing forms and APIs.
+-csrf_exempt Usage: When you use AJAX to send POST requests, Django expects a CSRF token to be included in the request headers. If this is not done properly, the request will fail due to a CSRF validation error. The csrf_exempt decorator can be used to bypass this check for a specific view, but it's generally recommended to ensure the token is included instead of bypassing the protection.
+-Risk of csrf_exempt: Using csrf_exempt can expose your view to CSRF attacks if not managed properly. It's better to configure the front-end to include the CSRF token with each AJAX request using X-CSRFToken headers.
+
+4. Why Can't Input Sanitization Be Done Just in the Front-End? (Continued)
+-Server-Side Validation is the Last Line of Defense: The server must assume that all data it receives could potentially be malicious, even if the front-end has been designed to sanitize input. Only server-side validation and sanitization can be trusted to ensure that the data is safe and adheres to the expected format.
+-Protection Against XSS and SQL Injection: By sanitizing input on the server side, you protect against Cross-Site Scripting (XSS) attacks, SQL injection, and other malicious inputs. Even if a user bypasses front-end checks, server-side sanitization ensures that the data is properly handled before being saved to the database or rendered back to the client.
+-Consistency Across Different Clients: Different users may interact with your application using different browsers or devices. While the front-end validation may differ slightly based on the user’s environment, server-side validation ensures that the rules are uniformly applied to all users, maintaining data integrity and consistency.
+
+5. Step-by-Step Explanation of How the Checklist Was Implemented
+Here’s a step-by-step breakdown of how the checklist was implemented for adding a new mood entry:
+
+1) Create the View Function for AJAX:
+Defined the add_product_entry_ajax function in views.py, which uses @csrf_exempt and @require_POST decorators to handle POST requests. The function processes the form data and saves a new mood entry to the database, responding with a JSON message.
+
+
+2) Set Up the URL Path:
+Added the path to urls.py to route the AJAX requests to the new view:
+path('create-ajax/', add_product_entry_ajax, name='add_product_entry_ajax'),
+
+3) Create the HTML Form Inside a Modal:
+Added a form inside a Bootstrap modal in main.html to allow users to enter mood details. This form uses AJAX to submit the data without reloading the page.
+The form includes fields like product and description, and a submit button triggers the AJAX request.
+
+4) JavaScript for AJAX Submission:
+Wrote JavaScript code to handle the form submission using the fetch() API or $.ajax() if using jQuery. The code sends the form data to the create-ajax/ endpoint and processes the server's JSON response.
+If the request is successful, the modal is closed, the form is reset, and a new mood card is appended to the list of mood entries without refreshing the entire page.
+
+5) Handle CSRF Tokens in AJAX Requests:
+Used $.ajaxSetup to automatically include the CSRF token in the headers of all AJAX requests, ensuring that Django's CSRF protection doesn't block the requests.
+This keeps the application secure while still allowing asynchronous form submissions.
+
+6) Update the User Interface Asynchronously:
+After successfully creating a new product entry, the JavaScript dynamically updates the DOM with the new mood entry. This is done by appending a new card with the mood details directly to the existing list.
+If no product entries existed before, the "No products added yet" message is removed to reflect the new state of the page.
+
