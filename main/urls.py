@@ -6,6 +6,7 @@ from main.views import logout_user
 from main.views import edit_product
 from .views import delete_product
 from main.views import add_product_entry_ajax
+from .views import create_product_flutter
 
 app_name = 'main'
 
@@ -21,4 +22,6 @@ urlpatterns = [
     path('edit-product/<uuid:id>', edit_product, name='edit_product'),
     path('delete/<uuid:id>/', delete_product, name='delete_product'),
     path('create-product-entry-ajax', add_product_entry_ajax, name='add_product_entry_ajax'),
+    path('create-product/', create_product_flutter, name='create_product_flutter'),
+    path('json/', product_list_json, name='product_list_json'),
 ]

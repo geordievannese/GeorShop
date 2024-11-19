@@ -1,3 +1,4 @@
+import json
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.core.serializers import serialize
@@ -41,6 +42,7 @@ def show_main(request):
 
     return render(request, "main.html", context)
 
+@login_required
 def product_list_json(request):
     data = list(Product.objects.filter(user=request.user).values())
     return JsonResponse(data, safe=False)
@@ -163,3 +165,22 @@ def add_product_entry_ajax(request):
         "price": new_product.price,
         "description": new_product.description
     }, status=201)
+
+@csrf_exempt
+def create_product_flutter(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+
+        
+        new_product = Product.objects.create(
+            user=request.user,  
+            name=data["name"],
+            price=int(data["price"]),
+            description=data["description"]
+        )
+
+        new_product.save()
+
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
