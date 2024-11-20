@@ -17,7 +17,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.utils.html import strip_tags
 from django.utils.html import escape
-
+from django.core import serializers
 
 @login_required(login_url='/login')
 def show_main(request):
@@ -42,10 +42,9 @@ def show_main(request):
 
     return render(request, "main.html", context)
 
-@login_required
 def product_list_json(request):
-    data = list(Product.objects.filter(user=request.user).values())
-    return JsonResponse(data, safe=False)
+    data = Product.objects.filter(user=request.user)  # Fetch all Product objects
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 def product_detail_json(request, pk):
     product = get_object_or_404(Product, pk=pk)
